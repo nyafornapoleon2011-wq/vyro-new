@@ -4,204 +4,365 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#080b14">
-<title>VYRO — Entertainment, Reimagined</title>
+<meta name="theme-color" content="#090910">
+<title>VYRO — Enter Your Entertainment Era</title>
+<meta name="description" content="Discover movies, series and football on VYRO. Your entertainment, all in one place.">
+
 <style>
 :root {
-  --bg:#080b14; --panel:#111827; --text:#f8fafc;
-  --muted:#a1aabe; --purple:#8b5cf6; --line:#242b3b;
+  --bg: #090910;
+  --panel: #13131e;
+  --purple: #9b5cff;
+  --text: #f8f7ff;
+  --muted: #a5a4b8;
 }
-* { box-sizing:border-box; }
-html { scroll-behavior:smooth; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body {
-  margin:0; background:var(--bg); color:var(--text);
-  font-family:Inter,Arial,sans-serif;
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, Arial, sans-serif;
 }
-a { color:inherit; text-decoration:none; }
+a { color: inherit; text-decoration: none; }
+button, input { font: inherit; }
+button { cursor: pointer; }
 header {
-  position:sticky; top:0; z-index:10;
-  background:rgba(8,11,20,.92); backdrop-filter:blur(18px);
-  border-bottom:1px solid var(--line);
-}
-nav {
-  max-width:1180px; margin:auto; padding:18px 24px;
-  display:flex; align-items:center; justify-content:space-between;
-  gap:20px;
+  height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 0 6%;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(9,9,16,.88);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid #ffffff0d;
 }
 .logo {
-  font-size:28px; font-weight:950; letter-spacing:3px;
-  background:linear-gradient(100deg,#fff,#a78bfa,#67e8f9);
-  color:transparent; background-clip:text;
+  font-size: 29px;
+  font-weight: 950;
+  letter-spacing: 3px;
 }
-.links { display:flex; gap:22px; flex-wrap:wrap; }
-.links a { color:#c0c8d8; font-size:14px; }
-.links a:hover { color:white; }
-.wrap { max-width:1180px; margin:auto; padding:0 24px; }
+.logo span { color: var(--purple); }
+nav { display: flex; gap: 25px; }
+nav a { color: #c5c4d3; font-size: 14px; transition: color .2s; }
+nav a:hover { color: white; }
+.search {
+  width: 190px;
+  padding: 11px 14px;
+  color: white;
+  background: #ffffff0b;
+  border: 1px solid #ffffff1c;
+  border-radius: 24px;
+  outline: none;
+}
+.search:focus { border-color: var(--purple); }
 .hero {
-  margin:30px auto 50px; padding:65px 42px;
-  min-height:400px; display:flex; align-items:center;
-  border:1px solid #292442; border-radius:28px; overflow:hidden;
+  min-height: 540px;
+  display: flex;
+  align-items: center;
+  padding: 70px 8%;
+  position: relative;
+  overflow: hidden;
   background:
-    radial-gradient(ellipse at 85% 25%,#5934a8 0,transparent 35%),
-    radial-gradient(ellipse at 80% 100%,#164d78 0,transparent 40%),
-    linear-gradient(120deg,#121426,#0b1020 65%,#20133a);
+    linear-gradient(90deg, #090910 2%, #090910e8 34%, #09091055 72%, #09091033),
+    linear-gradient(0deg, var(--bg), transparent 42%),
+    url("https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1800&q=85") center/cover;
 }
-.hero-content { max-width:650px; }
-.pill {
-  display:inline-block; color:#d8c7ff; background:#8b5cf622;
-  border:1px solid #8b5cf655; border-radius:30px;
-  padding:8px 12px; font-size:11px; font-weight:800;
-  letter-spacing:1.5px;
+.hero-content {
+  max-width: 600px;
+  position: relative;
+  animation: rise .9s ease both;
 }
-h1 { font-size:clamp(38px,6vw,70px); line-height:1.02;
-  letter-spacing:-2px; margin:22px 0; }
-.hero p { color:#c0c9dc; max-width:510px; line-height:1.8; }
-.actions { display:flex; gap:12px; flex-wrap:wrap; margin-top:26px; }
+.eyebrow {
+  color: #c9a7ff;
+  font-size: 12px;
+  letter-spacing: 3px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+.hero h1 {
+  font-size: clamp(48px, 7vw, 82px);
+  line-height: .98;
+  letter-spacing: -3px;
+  margin: 20px 0;
+}
+.hero h1 span {
+  background: linear-gradient(100deg, #fff, #bd91ff 70%, #8750ff);
+  color: transparent;
+  background-clip: text;
+}
+.hero p {
+  color: #c3c1d2;
+  max-width: 440px;
+  line-height: 1.8;
+}
+.actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 27px; }
 .btn {
-  display:inline-block; padding:13px 18px; border-radius:12px;
-  background:linear-gradient(110deg,#8b5cf6,#6d5dfc);
-  color:white; font-weight:750; font-size:14px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 13px 21px;
+  border-radius: 9px;
+  font-weight: 750;
+  border: 1px solid #ffffff25;
+  transition: transform .2s, filter .2s;
 }
-.btn.alt { background:#ffffff0c; border:1px solid #ffffff26; }
-.section { margin:0 auto 48px; }
-.heading {
-  display:flex; align-items:center; justify-content:space-between;
-  gap:12px; margin-bottom:20px;
+.btn:hover { transform: translateY(-3px); filter: brightness(1.15); }
+.primary { background: var(--purple); color: white; border-color: var(--purple); }
+.secondary { background: #ffffff0d; }
+main { padding-bottom: 60px; }
+.section { padding: 30px 6% 24px; }
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
 }
-h2 { font-size:26px; margin:0; letter-spacing:-.7px; }
-.heading span { color:var(--muted); font-size:12px; }
-.grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:17px; }
-.card {
-  overflow:hidden; border:1px solid var(--line); border-radius:17px;
-  background:linear-gradient(150deg,#151d30,#0e1422);
-  transition:transform .2s,border-color .2s;
+.section h2 { font-size: 24px; margin: 0; letter-spacing: -.5px; }
+.section-head small { color: var(--muted); }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 18px;
 }
-.card:hover { transform:translateY(-5px); border-color:#8b5cf6aa; }
+.movie {
+  min-width: 0;
+  background: var(--panel);
+  border: 1px solid #ffffff0c;
+  border-radius: 13px;
+  overflow: hidden;
+  transition: transform .25s, border-color .25s, box-shadow .25s;
+  animation: rise .6s ease both;
+}
+.movie:hover {
+  transform: translateY(-7px) scale(1.015);
+  border-color: #9b5cff88;
+  box-shadow: 0 15px 35px #0008;
+}
 .poster {
-  aspect-ratio:3/4; display:flex; align-items:center; justify-content:center;
-  padding:15px; text-align:center; font-size:23px; font-weight:900;
-  letter-spacing:1px; text-shadow:0 3px 15px #0008;
+  aspect-ratio: 2 / 2.75;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(145deg, #292041, #11111a);
 }
-.poster small { display:block; font-size:10px; letter-spacing:3px; margin-bottom:12px; }
-.p1 { background:radial-gradient(at 70% 25%,#8b5cf6,#23204a 48%,#101321); }
-.p2 { background:radial-gradient(at 25% 30%,#e87948,#542b38 45%,#111827); }
-.p3 { background:radial-gradient(at 70% 20%,#38bdf8,#173b55 45%,#101321); }
-.p4 { background:radial-gradient(at 40% 20%,#db2777,#492044 45%,#101321); }
-.info { padding:14px; }
-.info h3 { margin:0 0 6px; font-size:15px; }
-.info p { color:var(--muted); font-size:12px; margin:0; }
+.poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .5s;
+}
+.movie:hover .poster img { transform: scale(1.07); }
+.poster-label {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 10px;
+  font-weight: 800;
+  background: #9b5cffed;
+  padding: 6px 8px;
+  border-radius: 5px;
+}
+.movie-info { padding: 13px; }
+.movie-info h3 { margin: 0 0 8px; font-size: 14px; }
+.movie-info p { margin: 0; font-size: 12px; color: var(--muted); }
+.empty { display: none; color: var(--muted); padding: 18px 0; }
 .football {
-  display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px;
+  margin: 20px 6%;
+  padding: 35px;
+  border-radius: 18px;
+  border: 1px solid #ffffff15;
+  background:
+    radial-gradient(ellipse at 95% 10%, #4c238855, transparent 50%),
+    linear-gradient(120deg, #161622, #101019);
 }
-.match {
-  padding:22px; background:var(--panel); border:1px solid var(--line);
-  border-radius:17px;
-}
-.match h3 { margin:12px 0 8px; }
-.match p { color:var(--muted); font-size:13px; line-height:1.7; }
-.tag { color:#c4b5fd; font-size:11px; font-weight:800; }
-.note {
-  color:#cbd5e1; font-size:13px; line-height:1.7;
-  padding:16px; background:#8b5cf610;
-  border:1px solid #8b5cf633; border-radius:13px; margin-top:16px;
+.football h2 { font-size: 29px; margin: 12px 0; }
+.football p { color: var(--muted); line-height: 1.7; max-width: 600px; }
+.pill {
+  display: inline-block;
+  padding: 7px 10px;
+  background: #9b5cff20;
+  color: #d2b7ff;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
 }
 footer {
-  margin-top:60px; padding:30px 24px; text-align:center;
-  border-top:1px solid var(--line); color:var(--muted); font-size:13px;
+  border-top: 1px solid #ffffff12;
+  padding: 28px 6%;
+  color: var(--muted);
+  font-size: 13px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 15px;
 }
-@media(max-width:760px) {
-  nav { align-items:flex-start; flex-direction:column; padding:15px 18px; }
-  .links { gap:16px; }
-  .wrap { padding:0 16px; }
-  .hero { padding:38px 23px; min-height:350px; border-radius:20px; }
-  .grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
-  .football { grid-template-columns:1fr; }
-  h2 { font-size:23px; }
+footer strong { color: white; letter-spacing: 2px; }
+@keyframes rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (max-width: 900px) {
+  .grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
+  header { padding: 0 4%; }
+  nav { gap: 14px; }
+  .search { width: 145px; }
+  .hero { min-height: 480px; }
+}
+@media (max-width: 600px) {
+  header { height: auto; min-height: 70px; flex-wrap: wrap; padding: 15px 5%; gap: 14px; }
+  .logo { font-size: 25px; }
+  nav { order: 3; width: 100%; justify-content: space-between; gap: 10px; }
+  nav a { font-size: 12px; }
+  .search { width: 145px; }
+  .hero { padding: 65px 6%; min-height: 470px; background-position: center; }
+  .hero h1 { letter-spacing: -2px; }
+  .section { padding: 25px 5% 15px; }
+  .grid { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; }
+  .section h2 { font-size: 21px; }
+  .movie-info { padding: 10px; }
+  .football { margin: 25px 5%; padding: 24px; }
+  footer { padding: 25px 5%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 </style>
 </head>
+
 <body>
 <header>
-  <nav>
-    <a class="logo" href="#home">VYRO</a>
-    <div class="links">
-      <a href="#home">Home</a>
-      <a href="#movies">Movies</a>
-      <a href="#series">Series</a>
-      <a href="#football">Football</a>
-    </div>
+  <a class="logo" href="#" aria-label="VYRO home">VYR<span>O</span></a>
+  <nav aria-label="Main navigation">
+    <a href="#">Home</a>
+    <a href="#movies">Movies</a>
+    <a href="#series">Series</a>
+    <a href="#football">Football</a>
   </nav>
+  <input class="search" id="search" type="search" placeholder="⌕ Search titles..." aria-label="Search titles">
 </header>
 
-<main class="wrap" id="home">
-  <section class="hero">
-    <div class="hero-content">
-      <span class="pill">YOUR ENTERTAINMENT HUB</span>
-      <h1>Your next favorite starts here.</h1>
-      <p>Discover movies, series and football in one place.
-      Welcome to a fresh way to explore entertainment.</p>
-      <div class="actions">
-        <a class="btn" href="#movies">Explore Movies ↗</a>
-        <a class="btn alt" href="#football">Live Football ⚽</a>
-      </div>
+<section class="hero">
+  <div class="hero-content">
+    <div class="eyebrow">Your world of entertainment</div>
+    <h1>EVERY STORY.<br><span>ONE PLACE.</span></h1>
+    <p>Discover your next favorite movie, explore new series, and stay connected to the beautiful game. Welcome to entertainment, reimagined.</p>
+    <div class="actions">
+      <a class="btn primary" href="#movies">Explore Movies ↗</a>
+      <a class="btn secondary" href="#football">Explore Football ⚽</a>
     </div>
-  </section>
+  </div>
+</section>
 
+<main>
   <section class="section" id="movies">
-    <div class="heading">
-      <h2>Explore Movies</h2><span>YOUR NEXT WATCH</span>
+    <div class="section-head">
+      <h2>Featured Movies</h2>
+      <small>DISCOVER SOMETHING NEW</small>
     </div>
-    <div class="grid">
-      <article class="card">
-        <div class="poster p1"><div><small>VYRO ORIGINAL</small>NEON<br>HORIZON</div></div>
-        <div class="info"><h3>Neon Horizon</h3><p>Sci-Fi · Sample title</p></div>
+    <div class="grid" id="movie-grid">
+      <article class="movie" data-title="The Dark Knight">
+        <div class="poster">
+          <img src="https://images.unsplash.com/photo-1509347528160-9a9e33742cdb?auto=format&fit=crop&w=600&q=80" alt="Dramatic cinematic city at night" loading="lazy">
+          <span class="poster-label">FEATURED</span>
+        </div>
+        <div class="movie-info"><h3>The Night Watch</h3><p>Thriller · Featured concept</p></div>
       </article>
-      <article class="card">
-        <div class="poster p2"><div><small>FEATURED</small>LAST<br>STAND</div></div>
-        <div class="info"><h3>Last Stand</h3><p>Action · Sample title</p></div>
+      <article class="movie" data-title="Into the Wild">
+        <div class="poster">
+          <img src="https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=600&q=80" alt="Golden light across a landscape" loading="lazy">
+        </div>
+        <div class="movie-info"><h3>Beyond the Horizon</h3><p>Adventure · Featured concept</p></div>
       </article>
-      <article class="card">
-        <div class="poster p3"><div><small>DISCOVER</small>DEEP<br>BLUE</div></div>
-        <div class="info"><h3>Deep Blue</h3><p>Adventure · Sample title</p></div>
+      <article class="movie" data-title="Ocean Deep">
+        <div class="poster">
+          <img src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=600&q=80" alt="Powerful blue ocean waves" loading="lazy">
+        </div>
+        <div class="movie-info"><h3>Ocean Deep</h3><p>Adventure · Featured concept</p></div>
       </article>
-      <article class="card">
-        <div class="poster p4"><div><small>NEW ARRIVAL</small>AFTER<br>DARK</div></div>
-        <div class="info"><h3>After Dark</h3><p>Thriller · Sample title</p></div>
+      <article class="movie" data-title="Neon City">
+        <div class="poster">
+          <img src="https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=600&q=80" alt="Night sky with colorful lights" loading="lazy">
+        </div>
+        <div class="movie-info"><h3>Neon Dreams</h3><p>Sci-Fi · Featured concept</p></div>
+      </article>
+      <article class="movie" data-title="The Last Journey">
+        <div class="poster">
+          <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80" alt="Majestic mountains under a dramatic sky" loading="lazy">
+        </div>
+        <div class="movie-info"><h3>The Last Journey</h3><p>Drama · Featured concept</p></div>
       </article>
     </div>
-    <p class="note">These are design examples, not real playable films yet.
-    We'll add verified, authorized movie links next.</p>
+    <p class="empty" id="empty">No matching titles found. Try another search.</p>
   </section>
 
   <section class="section" id="series">
-    <div class="heading"><h2>Series & Stories</h2><span>MORE TO DISCOVER</span></div>
-    <div class="note">Your next series collection will live here.
-    We'll add real titles once we confirm they can legally be streamed.</div>
+    <div class="section-head">
+      <h2>Series & Stories</h2>
+      <small>YOUR NEXT BINGE</small>
+    </div>
+    <div class="grid">
+      <article class="movie">
+        <div class="poster">
+          <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80" alt="Atmospheric forest landscape" loading="lazy">
+        </div>
+        <div class="movie-info"><h3>Hidden Worlds</h3><p>Mystery · Concept</p></div>
+      </article>
+      <article class="movie">
+        <div class="poster">
+          <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=600&q=80" alt="Starry night sky above mountains" loading="lazy">
+        </div>
+        <div class="movie-info"><h3>Beyond the Stars</h3><p>Sci-Fi · Concept</p></div>
+      </article>
+    </div>
   </section>
 
-  <section class="section" id="football">
-    <div class="heading"><h2>Football on VYRO ⚽</h2><span>THE BEAUTIFUL GAME</span></div>
-    <div class="football">
-      <article class="match">
-        <span class="tag">MATCH CENTRE</span>
-        <h3>Fixtures & Kickoff Times</h3>
-        <p>We'll add upcoming matches, local kickoff times and scores
-        when a reliable data source is connected.</p>
-      </article>
-      <article class="match">
-        <span class="tag">WATCH OFFICIALLY</span>
-        <h3>Live Match Streams</h3>
-        <p>Find official free broadcasts when available in your country.
-        VYRO does not rebroadcast paid channels without permission.</p>
-      </article>
+  <section class="football" id="football">
+    <span class="pill">THE BEAUTIFUL GAME</span>
+    <h2>Football lives here. ⚽</h2>
+    <p>Find football coverage, fixtures, match updates, and official viewing options. Streaming availability depends on the authorized provider and your location.</p>
+    <div class="actions">
+      <a class="btn primary" href="https://www.fifa.com/fifaplus/" target="_blank" rel="noopener noreferrer">Explore FIFA+ ↗</a>
+      <a class="btn secondary" href="https://www.livescore.com/" target="_blank" rel="noopener noreferrer">Check Scores ↗</a>
     </div>
   </section>
 </main>
 
-<footer id="about">
-  <a class="logo" href="#home">VYRO</a>
-  <p>Entertainment, reimagined.</p>
-  <p>© 2026 VYRO · A project in progress</p>
+<footer>
+  <div><strong>VYRO</strong> — One platform. Endless entertainment.</div>
+  <div>© <span id="year"></span> VYRO · Discover responsibly.</div>
 </footer>
+
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+
+const search = document.getElementById("search");
+const cards = [...document.querySelectorAll(".movie")];
+const empty = document.getElementById("empty");
+
+search.addEventListener("input", () => {
+  const query = search.value.trim().toLowerCase();
+  let visible = 0;
+
+  cards.forEach(card => {
+    const title = (card.dataset.title || card.innerText).toLowerCase();
+    const matches = title.includes(query) || card.innerText.toLowerCase().includes(query);
+    card.style.display = matches ? "" : "none";
+    if (matches) visible++;
+  });
+
+  empty.style.display = visible ? "none" : "block";
+});
+</script>
 </body>
 </html>
