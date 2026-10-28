@@ -271,38 +271,33 @@ footer strong { color: white; letter-spacing: 2px; }
       <small>DISCOVER SOMETHING NEW</small>
     </div>
     <div class="grid" id="movie-grid">
-      <article class="movie" data-title="The Dark Knight">
-        <div class="poster">
-          <img src="https://images.unsplash.com/photo-1509347528160-9a9e33742cdb?auto=format&fit=crop&w=600&q=80" alt="Dramatic cinematic city at night" loading="lazy">
-          <span class="poster-label">FEATURED</span>
-        </div>
-        <div class="movie-info"><h3>The Night Watch</h3><p>Thriller · Featured concept</p></div>
-      </article>
-      <article class="movie" data-title="Into the Wild">
-        <div class="poster">
-          <img src="https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=600&q=80" alt="Golden light across a landscape" loading="lazy">
-        </div>
-        <div class="movie-info"><h3>Beyond the Horizon</h3><p>Adventure · Featured concept</p></div>
-      </article>
-      <article class="movie" data-title="Ocean Deep">
-        <div class="poster">
-          <img src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=600&q=80" alt="Powerful blue ocean waves" loading="lazy">
-        </div>
-        <div class="movie-info"><h3>Ocean Deep</h3><p>Adventure · Featured concept</p></div>
-      </article>
-      <article class="movie" data-title="Neon City">
-        <div class="poster">
-          <img src="https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=600&q=80" alt="Night sky with colorful lights" loading="lazy">
-        </div>
-        <div class="movie-info"><h3>Neon Dreams</h3><p>Sci-Fi · Featured concept</p></div>
-      </article>
-      <article class="movie" data-title="The Last Journey">
-        <div class="poster">
-          <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80" alt="Majestic mountains under a dramatic sky" loading="lazy">
-        </div>
-        <div class="movie-info"><h3>The Last Journey</h3><p>Drama · Featured concept</p></div>
-      </article>
+  <p>Loading popular movies...</p>
+</div>
+
+<p class="empty" id="empty" style="display:none">
+  No movies found. Try another title.
+</p>
+
+<div id="movie-modal" hidden>
+  <div class="modal-backdrop" id="modal-backdrop">
+    <div class="modal-card" role="dialog"
+         aria-modal="true" aria-labelledby="modal-title">
+
+      <button id="modal-close" class="modal-close"
+              aria-label="Close movie details">✕</button>
+
+      <img id="modal-poster" alt="Movie poster">
+
+      <div class="modal-info">
+        <span class="pill">MOVIE DETAILS</span>
+        <h2 id="modal-title">Movie title</h2>
+        <p id="modal-meta"></p>
+        <p id="modal-overview"></p>
+      </div>
+
     </div>
+  </div>
+</div>
     <p class="empty" id="empty">No matching titles found. Try another search.</p>
   </section>
 
@@ -363,6 +358,180 @@ search.addEventListener("input", () => {
 
   empty.style.display = visible ? "none" : "block";
 });
+</script>
+
+<script>
+const TMDB_KEY = "9bfbd7a153826b00202f8ae55ed935cf";
+const API = "https://api.themoviedb.org/3";
+const IMAGES = "https://image.tmdb.org/t/p/w500";
+
+const grid = document.getElementById("movie-grid");
+const search = document.getElementById("search");
+const empty = document.getElementById("empty");
+
+async function tmdb(path, params = {}) {
+  const url = new URL(API + path);
+  url.searchParams.set("api_key", TMDB_KEY);
+  url.searchParams.set("language", "en-US");
+
+  Object.entries(params).forEach(([key, value]) => {
+    url.searchParams.set(key, value);
+  });
+
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error("TMDB error: " + response.status);
+  }
+  return response.json();
+}
+
+function createMovieCard(movie) {
+  const card = document.createElement("article");
+  card.className = "movie";
+  card.tabIndex = 0;
+
+  const poster = document.createElement("div");
+  poster.className = "poster";
+
+  if (movie.poster_path) {
+    const img = document.createElement("img");
+    img.src = IMAGES + movie.poster_path;
+    img.alt = movie.title + " poster";
+    img.loading = "lazy";
+    poster.appendChild(img);
+  } else {
+    poster.textContent = "Poster unavailable";
+  }
+
+  const info = document.createElement("div");
+  info.className = "movie-info";
+
+  const title = document.createElement("h3");
+  title.textContent = movie.title;
+
+  const details = document.createElement("p");
+  details.textContent =
+    (movie.release_date || "Release date unknown") +
+    " · ★ " +
+    (movie.vote_average
+      ? movie.vote_average.toFixed(1)
+      : "N/A");
+
+  info.append(title, details);
+  card.append(poster, info);
+
+  card.addEventListener("click", () => showDetails(movie.id));
+  return card;
+}
+
+async function loadMovies(query = "") {
+  if (!grid) return;
+
+  grid.replaceChildren();
+  const loading = document.createElement("p");
+  loading.textContent = "Loading movies...";
+  grid.appendChild(loading);
+
+  try {
+    const data = query.trim()
+      ? await tmdb("/search/movie", { query: query.trim() })
+      : await tmdb("/movie/popular", { page: 1 });
+
+    grid.replaceChildren();
+    const movies = data.results || [];
+
+    if (empty) {
+      empty.style.display = movies.length ? "none" : "block";
+    }
+
+    movies.forEach(movie => {
+      grid.appendChild(createMovieCard(movie));
+    });
+
+    if (!movies.length) {
+      const message = document.createElement("p");
+      message.textContent = "No movies found. Try another title.";
+      grid.appendChild(message);
+    }
+  } catch (error) {
+    grid.replaceChildren();
+    const message = document.createElement("p");
+    message.textContent =
+      "Could not load movies. Check your API key and internet connection.";
+    grid.appendChild(message);
+    console.error(error);
+  }
+}
+
+async function showDetails(id) {
+  try {
+    const movie = await tmdb("/movie/" + id);
+
+    const title = document.getElementById("modal-title");
+    const meta = document.getElementById("modal-meta");
+    const overview = document.getElementById("modal-overview");
+    const poster = document.getElementById("modal-poster");
+    const modal = document.getElementById("movie-modal");
+
+    if (!title || !meta || !overview || !poster || !modal) return;
+
+    title.textContent = movie.title || "Untitled";
+    meta.textContent =
+      (movie.release_date || "Release date unknown") +
+      " · ★ " +
+      (movie.vote_average
+        ? movie.vote_average.toFixed(1) + "/10"
+        : "N/A") +
+      (movie.runtime ? " · " + movie.runtime + " min" : "");
+
+    overview.textContent =
+      movie.overview || "No description available.";
+
+    poster.src = movie.poster_path
+      ? IMAGES + movie.poster_path
+      : "";
+    poster.alt = (movie.title || "Movie") + " poster";
+
+    modal.hidden = false;
+  } catch (error) {
+    alert("Could not load movie details. Please try again.");
+    console.error(error);
+  }
+}
+
+function closeDetails() {
+  const modal = document.getElementById("movie-modal");
+  if (modal) modal.hidden = true;
+}
+
+const closeButton = document.getElementById("modal-close");
+if (closeButton) {
+  closeButton.addEventListener("click", closeDetails);
+}
+
+const backdrop = document.getElementById("modal-backdrop");
+if (backdrop) {
+  backdrop.addEventListener("click", event => {
+    if (event.target === backdrop) closeDetails();
+  });
+}
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") closeDetails();
+});
+
+let searchTimer;
+
+if (search) {
+  search.addEventListener("input", () => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => {
+      loadMovies(search.value);
+    }, 350);
+  });
+}
+
+loadMovies();
 </script>
 </body>
 </html>
